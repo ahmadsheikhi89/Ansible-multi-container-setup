@@ -14,6 +14,7 @@
 ---
 
 
+
 ## 📘 Overview
 
 This project is a **beginner-friendly Ansible lab** that demonstrates how to build a **role-based automation setup** using containers. It provides a clean and scalable structure to help new DevOps learners understand the modular architecture of Ansible.
@@ -180,8 +181,7 @@ Licensed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ## 👤 Author
 
-**Ahmad Sheikhi**
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-AhmadSheikhi-blue?logo=linkedin)](https://www.linkedin.com/in/ahmad-sheikhi)
+**Ahmad Sheikhi**  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-AhmadSheikhi-blue?logo=linkedin)](https://www.linkedin.com/in/ahmad-sheikhi-42322276)  
 📧 [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
 
----
