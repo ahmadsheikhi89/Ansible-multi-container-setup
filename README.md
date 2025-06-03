@@ -1,4 +1,4 @@
-````markdown
+markdown
 # 🚀 Ansible Lab: Multi-Container Role-Based Automation
 
 <div align="center">
