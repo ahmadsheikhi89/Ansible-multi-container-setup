@@ -1,195 +1,174 @@
-# Ansible Lab: Multi-Container Role-Based Automation
-
-![Banner](https://raw.githubusercontent.com/ahmadsheikhi89/Ansible-multi-container-setup/main/banner.png)
-
-[![Ansible](https://img.shields.io/badge/Ansible-Automation-EE0000?logo=ansible&logoColor=white)](https://www.ansible.com/)
-[![Ubuntu](https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&logoColor=white)](https://ubuntu.com/)
-[![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+حتماً احمد! در ادامه یک نسخه‌ی کامل و **تمیز و حرفه‌ای از فایل README.md** برای مخزن Ansible شما تهیه کردم. این نسخه شامل توضیحات، ساختار پروژه، نحوه اجرا و ساختار هر فایل کانفیگ به‌صورت مارک‌داون با استفاده از ایموجی‌های جذاب است:
 
 ---
 
-## Overview
+```markdown
+# 🚀 Ansible Multi-Container Setup
 
-This project is a **professional-grade Ansible lab** designed for beginner IT/DevOps students to learn **modern Ansible structure and best practices**.
-
-It demonstrates how to:
-- Run **three isolated Ubuntu containers** (web, db, monitor)
-- Configure each container using **Ansible roles**
-- Secure connection via **SSH key authentication**
-- Structure a maintainable and scalable project using:
-  - `group_vars`
-  - `host_vars`
-  - `defaults`, `vars`, `handlers`
-  - Role-based modular architecture
+پروژه‌ای آموزشی برای پیاده‌سازی چند کانتینر مجزا با استفاده از Ansible و معماری نقش‌محور (Role-based)، مناسب برای دانشجویان و علاقه‌مندان به حوزه‌ی DevOps و IT.
 
 ---
 
-## Project Structure
+## 📦 اهداف پروژه
 
-```bash
-project/
-├── ansible.cfg
+- ایجاد 3 کانتینر Ubuntu با عملکردهای متفاوت (Web، DB، Monitor)
+- اتصال امن SSH بین کانتینرها
+- پیکربندی هر کانتینر با Role مستقل
+- ساختاردهی حرفه‌ای و مقیاس‌پذیر با استفاده از:
+  - `group_vars`, `host_vars`
+  - `roles`, `defaults`, `handlers`
+  - ماژول‌های YAML و SSH
+
+---
+
+## 🏗️ ساختار پروژه
+
+```
+
+Ansible-multi-container-setup/
 ├── inventory/
-│   └── hosts.ini
-├── group_vars/
-│   ├── web.yml
-│   ├── db.yml
-│   └── monitor.yml
-├── host_vars/
-│   └── db1.yml
+│   └── hosts
+├── playbooks/
+│   └── site.yml
+├── group\_vars/
+│   ├── all.yml
+│   └── web.yml
+├── host\_vars/
+│   ├── web1.yml
+│   ├── db1.yml
+│   └── monitor1.yml
 ├── roles/
 │   ├── web/
-│   │   ├── tasks/main.yml
-│   │   ├── defaults/main.yml
-│   │   ├── vars/main.yml
-│   │   └── handlers/main.yml
+│   │   ├── tasks/
+│   │   │   └── main.yml
+│   │   └── ...
 │   ├── db/
-│   │   └── tasks/main.yml
 │   └── monitor/
-│       └── tasks/main.yml
-├── playbook.yml
 └── README.md
 
+````
 
 ---
 
-Inventory Configuration
+## 🛠️ پیش‌نیازها
 
-inventory/hosts.ini
+- Docker 🐳
+- Ansible ⚙️
+- سیستم عامل لینوکس/مک یا WSL برای ویندوز
 
+---
+
+## 🚦 نحوه اجرا
+
+```bash
+# کلون کردن مخزن
+git clone https://github.com/ahmadsheikhi89/Ansible-multi-container-setup.git
+cd Ansible-multi-container-setup
+
+# اجرای Playbook اصلی
+ansible-playbook -i inventory/hosts playbooks/site.yml
+````
+
+---
+
+## 📁 فایل‌های مهم کانفیگ
+
+### 📌 inventory/hosts
+
+```ini
 [web]
-web ansible_host=127.0.0.1 ansible_port=2220 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
+web1 ansible_host=172.18.0.2 ansible_user=ubuntu
 
 [db]
-db ansible_host=127.0.0.1 ansible_port=2221 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
+db1 ansible_host=172.18.0.3 ansible_user=ubuntu
 
 [monitor]
-monitor ansible_host=127.0.0.1 ansible_port=2222 ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_ed25519
-
+monitor1 ansible_host=172.18.0.4 ansible_user=ubuntu
+```
 
 ---
 
-Example Group Vars
+### 📌 playbooks/site.yml
 
-group_vars/web.yml
+```yaml
+- name: Deploy all roles
+  hosts: all
+  become: true
+  roles:
+    - { role: web, when: "'web' in group_names" }
+    - { role: db, when: "'db' in group_names" }
+    - { role: monitor, when: "'monitor' in group_names" }
+```
 
-nginx_package: nginx
+---
+
+### 📌 group\_vars/web.yml
+
+```yaml
+web_packages:
+  - nginx
+  - curl
+```
+
+---
+
+### 📌 host\_vars/web1.yml
+
+```yaml
+hostname: web1
 nginx_port: 80
-
+```
 
 ---
 
-Web Role Example
+### 📌 roles/web/tasks/main.yml
 
-roles/web/tasks/main.yml
-
-- name: Install Nginx
+```yaml
+- name: نصب پکیج‌های مورد نیاز
   apt:
-    name: "{{ nginx_package }}"
+    name: "{{ web_packages }}"
     state: present
-    update_cache: true
+    update_cache: yes
 
-- name: Start Nginx
-  service:
-    name: "{{ nginx_package }}"
-    state: started
-    enabled: true
+- name: کپی فایل کانفیگ NGINX
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify: restart nginx
+```
 
-roles/web/defaults/main.yml
+---
 
-nginx_package: nginx
+### 📌 roles/web/handlers/main.yml
 
-roles/web/handlers/main.yml
-
+```yaml
 - name: restart nginx
   service:
     name: nginx
     state: restarted
-
-
----
-
-Database Role Example
-
-roles/db/tasks/main.yml
-
-- name: Install MariaDB
-  apt:
-    name: mariadb-server
-    state: present
-    update_cache: true
-
-- name: Start MariaDB
-  service:
-    name: mariadb
-    state: started
-    enabled: true
-
+```
 
 ---
 
-Main Playbook
+## 🧪 تست پروژه
 
-playbook.yml
+پس از اجرای playbook:
 
-- name: Setup Web Role
-  hosts: web
-  become: true
-  roles:
-    - web
-
-- name: Setup DB Role
-  hosts: db
-  become: true
-  roles:
-    - db
-
-- name: Setup Monitor Role
-  hosts: monitor
-  become: true
-  roles:
-    - monitor
-
+* با دستور `docker ps` مطمئن شوید کانتینرها بالا هستند.
+* با `curl http://172.18.0.2` وضعیت وب سرور را بررسی کنید.
+* با `ansible -m ping all -i inventory/hosts` ارتباط SSH را تست کنید.
 
 ---
 
-SSH Setup
+## 📜 مجوز
 
-ssh-keygen -t ed25519 -C "ansible-lab"
-ssh-copy-id -i ~/.ssh/id_ed25519.pub root@<container_ip_or_port>
-
+MIT © [Ahmad Sheikhi](https://github.com/ahmadsheikhi89)
 
 ---
 
-Requirements
+## 💬 ارتباط با من
 
-Ansible >= 2.15
+📧 ایمیل: [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
+🔗 لینکدین: [Ahmad Sheikhi](https://www.linkedin.com/in/ahmad-sheikhi)
 
-Docker or Podman
-
-Python >= 3.8
-
-
-
----
-
-Educational Goals
-
-Understand the real-world Ansible directory structure
-
-Learn how to manage multiple hosts using roles
-
-Use group and host variables for cleaner configs
-
-Secure Ansible with SSH keys (no passwords!)
-
-Build fully automated lab environments with containers
-
-
-
----
-
-License
-
-This project is licensed under the MIT License.
+```
