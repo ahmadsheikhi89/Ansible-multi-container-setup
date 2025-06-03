@@ -11,18 +11,16 @@
 
 ---
 
-
-
 ## 📘 Overview
 
-This project is a **beginner-friendly Ansible lab** that demonstrates how to build a **role-based automation setup** using containers. It provides a clean and scalable structure to help new DevOps learners understand the modular architecture of Ansible.
+This project is a **beginner-friendly Ansible lab** demonstrating how to create a **role-based automation setup** using containers. It offers a clean, scalable structure ideal for DevOps newcomers.
 
 ### 🔍 Key Features
 
-- 🐧 Launch and manage 3 Ubuntu containers: `web`, `db`, `monitor`
-- ⚙️ Role-based configuration with best practices
-- 🔐 SSH key authentication for secure access
-- 🧩 Well-structured Ansible directory layout
+* 🐧 Manage three Ubuntu containers: `web`, `db`, `monitor`
+* ⚙️ Role-based configuration adhering to best practices
+* 🔐 Secure SSH key authentication
+* 🧩 Organized Ansible directory layout
 
 ---
 
@@ -44,7 +42,7 @@ Ansible-multi-container-setup/
 │   ├── web/
 │   ├── db/
 │   └── monitor/
-````
+```
 
 ---
 
@@ -90,7 +88,7 @@ monitor1 ansible_host=172.18.0.4 ansible_user=ubuntu
 ### 📄 playbooks/site.yml
 
 ```yaml
-- name: Deploy all containers with appropriate roles
+- name: Deploy containers with roles
   hosts: all
   become: true
   roles:
@@ -151,19 +149,19 @@ nginx_port: 80
 
 ## ✅ Testing
 
-* Check connectivity:
+* Connectivity check:
 
 ```bash
 ansible -i inventory/hosts all -m ping
 ```
 
-* Validate web container:
+* Web container validation:
 
 ```bash
 curl http://172.18.0.2
 ```
 
-* List running containers:
+* List containers:
 
 ```bash
 docker ps
@@ -173,13 +171,13 @@ docker ps
 
 ## 📜 License
 
-Licensed under the MIT License. See [LICENSE](LICENSE) for more information.
+Licensed under MIT. See [LICENSE](LICENSE).
 
 ---
 
 ## 👤 Author
 
-**Ahmad Sheikhi**  
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-AhmadSheikhi-blue?logo=linkedin)](https://www.linkedin.com/in/ahmad-sheikhi-42322276)  
-📧 [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
+**Ahmad Sheikhi**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-AhmadSheikhi-blue?logo=linkedin)](https://www.linkedin.com/in/ahmad-sheikhi)
 
+📧 [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
