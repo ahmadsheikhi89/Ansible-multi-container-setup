@@ -1,0 +1,2 @@
+hostname: web1
+nginx_port: 80

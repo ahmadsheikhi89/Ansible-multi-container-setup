@@ -1,0 +1,11 @@
+- name: Install database packages
+  apt:
+    name: "{{ db_packages }}"
+    state: present
+    update_cache: yes
+
+- name: Ensure database service is started
+  service:
+    name: "{{ db_service }}"
+    state: started
+    enabled: yes
