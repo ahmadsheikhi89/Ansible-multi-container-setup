@@ -1,0 +1,7 @@
+- name: Deploy containers with roles
+  hosts: all
+  become: true
+  roles:
+    - { role: web, when: "'web' in group_names" }
+    - { role: db, when: "'db' in group_names" }
+    - { role: monitor, when: "'monitor' in group_names" }

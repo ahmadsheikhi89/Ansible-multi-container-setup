@@ -1,0 +1,11 @@
+- name: Install required packages
+  apt:
+    name: "{{ web_packages }}"
+    state: present
+    update_cache: yes
+
+- name: Copy NGINX config file
+  template:
+    emerging: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify: restart nginx
