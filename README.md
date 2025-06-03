@@ -1,79 +1,84 @@
-حتماً احمد! در ادامه یک نسخه‌ی کامل و **تمیز و حرفه‌ای از فایل README.md** برای مخزن Ansible شما تهیه کردم. این نسخه شامل توضیحات، ساختار پروژه، نحوه اجرا و ساختار هر فایل کانفیگ به‌صورت مارک‌داون با استفاده از ایموجی‌های جذاب است:
+حتماً احمد، در ادامه نسخه‌ی نهایی و **کاملاً انگلیسی، تمیز، حرفه‌ای و Markdown-friendly** فایل `README.md` رو می‌بینی — بدون هیچ متن فارسی یا کامنت غیرضروری داخل کدها. همه چیز با ایموجی، تگ‌های مرتب، ساختار نقش‌ها و فایل‌ها تنظیم شده:
 
 ---
 
-```markdown
-# 🚀 Ansible Multi-Container Setup
+````markdown
+# 🚀 Ansible Lab: Multi-Container Role-Based Automation
 
-پروژه‌ای آموزشی برای پیاده‌سازی چند کانتینر مجزا با استفاده از Ansible و معماری نقش‌محور (Role-based)، مناسب برای دانشجویان و علاقه‌مندان به حوزه‌ی DevOps و IT.
+<div align="center">
+  <img src="https://raw.githubusercontent.com/ahmadsheikhi89/Ansible-multi-container-setup/main/Banner.png" alt="Ansible Multi-Container Banner" width="100%" />
+</div>
 
----
-
-## 📦 اهداف پروژه
-
-- ایجاد 3 کانتینر Ubuntu با عملکردهای متفاوت (Web، DB، Monitor)
-- اتصال امن SSH بین کانتینرها
-- پیکربندی هر کانتینر با Role مستقل
-- ساختاردهی حرفه‌ای و مقیاس‌پذیر با استفاده از:
-  - `group_vars`, `host_vars`
-  - `roles`, `defaults`, `handlers`
-  - ماژول‌های YAML و SSH
+<p align="center">
+  <a href="https://www.ansible.com/"><img src="https://img.shields.io/badge/Ansible-Automation-EE0000?logo=ansible&logoColor=white" /></a>
+  <a href="https://ubuntu.com/"><img src="https://img.shields.io/badge/Ubuntu-22.04-E95420?logo=ubuntu&logoColor=white" /></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" /></a>
+</p>
 
 ---
 
-## 🏗️ ساختار پروژه
+## 📘 Overview
 
-```
+This project is a **beginner-friendly Ansible lab** that demonstrates how to build a **role-based automation setup** using containers. It provides a clean and scalable structure to help new DevOps learners understand the modular architecture of Ansible.
 
+### 🔍 Key Features
+
+- 🐧 Launch and manage 3 Ubuntu containers: `web`, `db`, `monitor`
+- ⚙️ Role-based configuration with best practices
+- 🔐 SSH key authentication for secure access
+- 🧩 Well-structured Ansible directory layout
+
+---
+
+## 🧠 Project Structure
+
+```bash
 Ansible-multi-container-setup/
 ├── inventory/
 │   └── hosts
-├── playbooks/
-│   └── site.yml
-├── group\_vars/
-│   ├── all.yml
+├── group_vars/
 │   └── web.yml
-├── host\_vars/
+├── host_vars/
 │   ├── web1.yml
 │   ├── db1.yml
 │   └── monitor1.yml
+├── playbooks/
+│   └── site.yml
 ├── roles/
 │   ├── web/
-│   │   ├── tasks/
-│   │   │   └── main.yml
-│   │   └── ...
 │   ├── db/
 │   └── monitor/
 └── README.md
-
 ````
 
 ---
 
-## 🛠️ پیش‌نیازها
+## ⚡ Getting Started
 
-- Docker 🐳
-- Ansible ⚙️
-- سیستم عامل لینوکس/مک یا WSL برای ویندوز
-
----
-
-## 🚦 نحوه اجرا
+### ✅ Clone the Repository
 
 ```bash
-# کلون کردن مخزن
 git clone https://github.com/ahmadsheikhi89/Ansible-multi-container-setup.git
 cd Ansible-multi-container-setup
+```
 
-# اجرای Playbook اصلی
+### 🛠 Requirements
+
+* Docker
+* Ansible
+
+### 🚀 Run the Playbook
+
+```bash
 ansible-playbook -i inventory/hosts playbooks/site.yml
-````
+```
 
 ---
 
-## 📁 فایل‌های مهم کانفیگ
+## 🧾 Configuration Files
 
-### 📌 inventory/hosts
+### 📄 inventory/hosts
 
 ```ini
 [web]
@@ -88,10 +93,10 @@ monitor1 ansible_host=172.18.0.4 ansible_user=ubuntu
 
 ---
 
-### 📌 playbooks/site.yml
+### 📄 playbooks/site.yml
 
 ```yaml
-- name: Deploy all roles
+- name: Deploy all containers with appropriate roles
   hosts: all
   become: true
   roles:
@@ -102,7 +107,7 @@ monitor1 ansible_host=172.18.0.4 ansible_user=ubuntu
 
 ---
 
-### 📌 group\_vars/web.yml
+### 📄 group\_vars/web.yml
 
 ```yaml
 web_packages:
@@ -112,7 +117,7 @@ web_packages:
 
 ---
 
-### 📌 host\_vars/web1.yml
+### 📄 host\_vars/web1.yml
 
 ```yaml
 hostname: web1
@@ -121,16 +126,16 @@ nginx_port: 80
 
 ---
 
-### 📌 roles/web/tasks/main.yml
+### 📄 roles/web/tasks/main.yml
 
 ```yaml
-- name: نصب پکیج‌های مورد نیاز
+- name: Install required packages
   apt:
     name: "{{ web_packages }}"
     state: present
     update_cache: yes
 
-- name: کپی فایل کانفیگ NGINX
+- name: Copy NGINX config file
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
@@ -139,7 +144,7 @@ nginx_port: 80
 
 ---
 
-### 📌 roles/web/handlers/main.yml
+### 📄 roles/web/handlers/main.yml
 
 ```yaml
 - name: restart nginx
@@ -150,25 +155,40 @@ nginx_port: 80
 
 ---
 
-## 🧪 تست پروژه
+## ✅ Testing
 
-پس از اجرای playbook:
+* Check connectivity:
 
-* با دستور `docker ps` مطمئن شوید کانتینرها بالا هستند.
-* با `curl http://172.18.0.2` وضعیت وب سرور را بررسی کنید.
-* با `ansible -m ping all -i inventory/hosts` ارتباط SSH را تست کنید.
+```bash
+ansible -i inventory/hosts all -m ping
+```
+
+* Validate web container:
+
+```bash
+curl http://172.18.0.2
+```
+
+* List running containers:
+
+```bash
+docker ps
+```
 
 ---
 
-## 📜 مجوز
+## 📜 License
 
-MIT © [Ahmad Sheikhi](https://github.com/ahmadsheikhi89)
+Licensed under the MIT License. See [LICENSE](LICENSE) for more information.
 
 ---
 
-## 💬 ارتباط با من
+## 👤 Author
 
-📧 ایمیل: [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
-🔗 لینکدین: [Ahmad Sheikhi](https://www.linkedin.com/in/ahmad-sheikhi)
+**Ahmad Sheikhi**
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-AhmadSheikhi-blue?logo=linkedin)](https://www.linkedin.com/in/ahmad-sheikhi)
+📧 [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
+
+---
 
 ```
