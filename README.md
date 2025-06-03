@@ -1,4 +1,4 @@
-markdown
+````markdown
 # 🚀 Ansible Lab: Multi-Container Role-Based Automation
 
 <div align="center">
@@ -45,7 +45,6 @@ Ansible-multi-container-setup/
 │   ├── web/
 │   ├── db/
 │   └── monitor/
-└── README.md
 ````
 
 ---
@@ -186,5 +185,3 @@ Licensed under the MIT License. See [LICENSE](LICENSE) for more information.
 📧 [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
 
 ---
-
-```
