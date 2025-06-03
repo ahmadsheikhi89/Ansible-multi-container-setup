@@ -1,0 +1,19 @@
+- name: Configure container via SSH
+  hosts: mycontainer
+  gather_facts: yes
+
+  tasks:
+    - name: Update apt cache inside container
+      apt:
+        update_cache: yes
+
+    - name: Install nginx inside container
+      apt:
+        name: nginx
+        state: present
+
+    - name: Start nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes

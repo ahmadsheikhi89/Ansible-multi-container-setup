@@ -1,0 +1,13 @@
+- name: Create ssh-enabled container
+  hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Run ssh-enabled container
+      community.docker.docker_container:
+        name: mycontainer
+        image: my-ssh-ubuntu
+        state: started
+        ports:
+          - "2222:22"
