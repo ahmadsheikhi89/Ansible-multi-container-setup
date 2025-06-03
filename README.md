@@ -1,12 +1,8 @@
-markdown
 # 🚀 Ansible Lab: Multi-Container Role-Based Automation
-
-![Ansible Multi-Container Banner](https://github.com/ahmadsheikhi89/Ansible-multi-container-setup/raw/main/Banner.png)
 
 <p align="center">
   <img src="https://github.com/ahmadsheikhi89/Ansible-multi-container-setup/raw/main/Banner.png" alt="Ansible Multi-Container Banner" width="100%" />
 </p>
-
 
 <p align="center">
   <a href="https://www.ansible.com/"><img src="https://img.shields.io/badge/Ansible-Automation-EE0000?logo=ansible&logoColor=white" /></a>
@@ -16,6 +12,7 @@ markdown
 </p>
 
 ---
+
 
 ## 📘 Overview
 
