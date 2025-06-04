@@ -28,12 +28,14 @@ This project is a **beginner-friendly Ansible lab** demonstrating how to launch 
 ```bash
 Ansible-multi-container-setup/
 ├── ansible.cfg
+├── banner.png
 ├── group_vars/
 │   └── web.yml
+├── host_vars/
 ├── inventory/
 │   └── hosts
-├── playbooks/
-│   └── site.yml
+├── LICENSE
+├── README.md
 ├── roles/
 │   └── web/
 │       ├── handlers/
@@ -42,8 +44,6 @@ Ansible-multi-container-setup/
 │       │   └── main.yml
 │       └── templates/
 │           └── nginx.conf.j2
-├── README.md
-├── LICENSE
 └── site.yml
 ```
 ---
