@@ -11,7 +11,6 @@
 
 ---
 
-
 ## 📘 Overview
 
 This project is a **beginner-friendly Ansible lab** demonstrating how to launch and manage multiple **Nginx containers** using a clean and production-friendly Ansible structure. Ideal for local testing and DevOps learning.
@@ -28,24 +27,24 @@ This project is a **beginner-friendly Ansible lab** demonstrating how to launch 
 
 ```bash
 Ansible-multi-container-setup/
-├── ansible.cfg
+├── ansible.cfg                  # Ansible configuration file
 ├── group_vars/
-│   └── web.yml
+│   └── web.yml                 # Group variables (defines nginx image and container config)
 ├── inventory/
-│   └── hosts
+│   └── hosts                   # Inventory file listing managed hosts
 ├── playbooks/
-│   └── site.yml
+│   └── site.yml               # Main playbook to run the deployment
 ├── roles/
-│   └── web/
+│   └── web/                   # Ansible role for Nginx
 │       ├── handlers/
-│       │   └── main.yml
+│       │   └── main.yml       # Placeholder for handlers (optional)
 │       ├── tasks/
-│       │   └── main.yml
+│       │   └── main.yml       # Role tasks (can be extended)
 │       └── templates/
-│           └── nginx.conf.j2
-├── README.md
-├── LICENSE
-└── site.yml
+│           └── nginx.conf.j2  # Nginx config template (optional for customization)
+├── README.md                  # This documentation
+├── LICENSE                    # License file
+└── site.yml                   # Shortcut to playbooks/site.yml
 ```
 
 ---
@@ -75,7 +74,6 @@ curl -fsSL https://get.docker.com | sudo sh
 # Or download and run manually
 curl -fsSL https://get.docker.com -o install-docker.sh
 sudo sh install-docker.sh
-
 ```
 
 #### ✅ Install Ansible
@@ -110,8 +108,6 @@ ansible-playbook -i inventory/hosts playbooks/site.yml
 localhost ansible_connection=local
 ```
 
----
-
 ### 📄 group\_vars/web.yml
 
 ```yaml
@@ -125,8 +121,6 @@ web_containers:
 
 nginx_image: nginx:latest
 ```
-
----
 
 ### 📄 playbooks/site.yml
 
@@ -152,6 +146,36 @@ nginx_image: nginx:latest
         published_ports:
           - "{{ item.published_port }}:80"
       loop: "{{ web_containers }}"
+```
+
+### 📄 roles/web/tasks/main.yml
+
+```yaml
+# This file can be used for more complex role-based tasks
+- name: Placeholder for web role tasks
+  debug:
+    msg: "Web role task running..."
+```
+
+### 📄 roles/web/handlers/main.yml
+
+```yaml
+# Add handlers here if needed (e.g., restart nginx)
+```
+
+### 📄 roles/web/templates/nginx.conf.j2
+
+```nginx
+# Basic nginx config template
+server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+}
 ```
 
 ---
