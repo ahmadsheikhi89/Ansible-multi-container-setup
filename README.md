@@ -11,6 +11,7 @@
 
 ---
 
+
 ## 📘 Overview
 
 This project is a **beginner-friendly Ansible lab** demonstrating how to launch and manage multiple **Nginx containers** using a clean and production-friendly Ansible structure. Ideal for local testing and DevOps learning.
@@ -28,14 +29,12 @@ This project is a **beginner-friendly Ansible lab** demonstrating how to launch 
 ```bash
 Ansible-multi-container-setup/
 ├── ansible.cfg
-├── banner.png
 ├── group_vars/
 │   └── web.yml
-├── host_vars/
 ├── inventory/
 │   └── hosts
-├── LICENSE
-├── README.md
+├── playbooks/
+│   └── site.yml
 ├── roles/
 │   └── web/
 │       ├── handlers/
@@ -44,8 +43,11 @@ Ansible-multi-container-setup/
 │       │   └── main.yml
 │       └── templates/
 │           └── nginx.conf.j2
+├── README.md
+├── LICENSE
 └── site.yml
 ```
+
 ---
 
 ## ⚡ Getting Started
@@ -60,7 +62,30 @@ cd Ansible-multi-container-setup
 ### 🛠 Requirements
 
 * Docker
-* Ansible (with docker connection plugin)
+* Ansible (with community.docker collection)
+
+### 🧱 Install Requirements
+
+#### ✅ Install Docker (Official Script)
+
+```bash
+curl -fsSL https://get.docker.com | sudo sh
+```
+
+#### ✅ Install Ansible
+
+```bash
+sudo apt update
+sudo apt install -y ansible
+```
+
+#### ✅ Install Ansible Docker Collection
+
+```bash
+ansible-galaxy collection install community.docker
+```
+
+---
 
 ### 🚀 Run the Playbook
 
@@ -77,6 +102,22 @@ ansible-playbook -i inventory/hosts playbooks/site.yml
 ```ini
 [web]
 localhost ansible_connection=local
+```
+
+---
+
+### 📄 group\_vars/web.yml
+
+```yaml
+web_containers:
+  - name: nginx1
+    published_port: 8081
+  - name: nginx2
+    published_port: 8082
+  - name: nginx3
+    published_port: 8083
+
+nginx_image: nginx:latest
 ```
 
 ---
@@ -105,22 +146,6 @@ localhost ansible_connection=local
         published_ports:
           - "{{ item.published_port }}:80"
       loop: "{{ web_containers }}"
-```
-
----
-
-### 📄 group\_vars/web.yml
-
-```yaml
-web_containers:
-  - name: nginx1
-    published_port: 8081
-  - name: nginx2
-    published_port: 8082
-  - name: nginx3
-    published_port: 8083
-
-nginx_image: nginx:latest
 ```
 
 ---
@@ -157,7 +182,6 @@ Licensed under MIT. See [LICENSE](LICENSE).
 
 ## 👤 Author
 
-**Ahmad Sheikhi**  
-🔗 [LinkedIn](https://www.linkedin.com/in/ahmad-sheikhi-42322276/)  
+**Ahmad Sheikhi**
+🔗 [LinkedIn](https://www.linkedin.com/in/ahmad-sheikhi-42322276/)
 📧 [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
-
