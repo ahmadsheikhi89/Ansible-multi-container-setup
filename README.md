@@ -70,6 +70,14 @@ cd Ansible-multi-container-setup
 
 ```bash
 curl -fsSL https://get.docker.com | sudo sh
+
+Or
+
+# download the script
+
+curl -fsSL https://get.docker.com -o install-docker.sh
+sudo sh install-docker.sh
+
 ```
 
 #### ✅ Install Ansible
