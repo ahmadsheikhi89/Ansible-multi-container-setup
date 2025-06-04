@@ -13,14 +13,13 @@
 
 ## 📘 Overview
 
-This project is a **beginner-friendly Ansible lab** demonstrating how to create a **role-based automation setup** using containers. It offers a clean, scalable structure ideal for DevOps newcomers.
+This project is a **beginner-friendly Ansible lab** demonstrating how to launch and manage multiple **Nginx containers** using a clean and production-friendly Ansible structure. Ideal for local testing and DevOps learning.
 
 ### 🔍 Key Features
 
-* 🐧 Manage three Ubuntu containers: `web`, `db`, `monitor`
-* ⚙️ Role-based configuration adhering to best practices
-* 🔐 Secure SSH key authentication
-* 🧩 Organized Ansible directory layout
+* 🐧 Run three Nginx containers on a single host
+* ⚙️ Fully automated container creation with Ansible
+* 🧩 Minimal yet extensible Ansible role layout
 
 ---
 
@@ -33,15 +32,17 @@ Ansible-multi-container-setup/
 ├── group_vars/
 │   └── web.yml
 ├── host_vars/
-│   ├── web1.yml
-│   ├── db1.yml
-│   └── monitor1.yml
+│   └── web1.yml
 ├── playbooks/
 │   └── site.yml
 ├── roles/
-│   ├── web/
-│   ├── db/
-│   └── monitor/
+│   └── web/
+│       ├── handlers/
+│       │   └── main.yml
+│       ├── tasks/
+│       │   └── main.yml
+│       └── templates/
+│           └── nginx.conf.j2
 ```
 
 ---
@@ -58,7 +59,7 @@ cd Ansible-multi-container-setup
 ### 🛠 Requirements
 
 * Docker
-* Ansible
+* Ansible (with docker connection plugin)
 
 ### 🚀 Run the Playbook
 
@@ -74,13 +75,7 @@ ansible-playbook -i inventory/hosts playbooks/site.yml
 
 ```ini
 [web]
-web1 ansible_host=172.18.0.2 ansible_user=ubuntu
-
-[db]
-db1 ansible_host=172.18.0.3 ansible_user=ubuntu
-
-[monitor]
-monitor1 ansible_host=172.18.0.4 ansible_user=ubuntu
+localhost ansible_connection=local
 ```
 
 ---
@@ -88,13 +83,27 @@ monitor1 ansible_host=172.18.0.4 ansible_user=ubuntu
 ### 📄 playbooks/site.yml
 
 ```yaml
-- name: Deploy containers with roles
-  hosts: all
+- name: Build and configure containers on all web hosts
+  hosts: web
   become: true
-  roles:
-    - { role: web, when: "'web' in group_names" }
-    - { role: db, when: "'db' in group_names" }
-    - { role: monitor, when: "'monitor' in group_names" }
+  vars_files:
+    - ../group_vars/web.yml
+
+  tasks:
+    - name: Pull nginx image
+      docker_image:
+        name: "{{ nginx_image }}"
+        source: pull
+
+    - name: Run nginx containers
+      docker_container:
+        name: "{{ item.name }}"
+        image: "{{ nginx_image }}"
+        state: started
+        restart_policy: always
+        published_ports:
+          - "{{ item.published_port }}:80"
+      loop: "{{ web_containers }}"
 ```
 
 ---
@@ -102,47 +111,15 @@ monitor1 ansible_host=172.18.0.4 ansible_user=ubuntu
 ### 📄 group\_vars/web.yml
 
 ```yaml
-web_packages:
-  - nginx
-  - curl
-```
+web_containers:
+  - name: nginx1
+    published_port: 8081
+  - name: nginx2
+    published_port: 8082
+  - name: nginx3
+    published_port: 8083
 
----
-
-### 📄 host\_vars/web1.yml
-
-```yaml
-hostname: web1
-nginx_port: 80
-```
-
----
-
-### 📄 roles/web/tasks/main.yml
-
-```yaml
-- name: Install required packages
-  apt:
-    name: "{{ web_packages }}"
-    state: present
-    update_cache: yes
-
-- name: Copy NGINX config file
-  template:
-    src: nginx.conf.j2
-    dest: /etc/nginx/nginx.conf
-  notify: restart nginx
-```
-
----
-
-### 📄 roles/web/handlers/main.yml
-
-```yaml
-- name: restart nginx
-  service:
-    name: nginx
-    state: restarted
+nginx_image: nginx:latest
 ```
 
 ---
@@ -152,13 +129,15 @@ nginx_port: 80
 * Connectivity check:
 
 ```bash
-ansible -i inventory/hosts all -m ping
+ansible -i inventory/hosts web -m ping
 ```
 
-* Web container validation:
+* Web containers validation:
 
 ```bash
-curl http://172.18.0.2
+curl http://localhost:8081
+curl http://localhost:8082
+curl http://localhost:8083
 ```
 
 * List containers:
@@ -178,6 +157,4 @@ Licensed under MIT. See [LICENSE](LICENSE).
 ## 👤 Author
 
 **Ahmad Sheikhi**
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-AhmadSheikhi-blue?logo=linkedin)](https://www.linkedin.com/in/ahmad-sheikhi)
-
 📧 [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
