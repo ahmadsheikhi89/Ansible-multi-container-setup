@@ -157,5 +157,7 @@ Licensed under MIT. See [LICENSE](LICENSE).
 
 ## 👤 Author
 
-**Ahmad Sheikhi**
+**Ahmad Sheikhi**  
+🔗 [LinkedIn](https://www.linkedin.com/in/ahmad-sheikhi-42322276/)  
 📧 [ahmad.sheikhi89@gmail.com](mailto:ahmad.sheikhi89@gmail.com)
+
