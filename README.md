@@ -78,6 +78,9 @@ Or
 curl -fsSL https://get.docker.com -o install-docker.sh
 sudo sh install-docker.sh
 
+sudo chown user:user install-docker.sh
+./install-docker.sh
+
 ```
 
 #### ✅ Install Ansible
