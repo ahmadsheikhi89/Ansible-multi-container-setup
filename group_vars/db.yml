@@ -1,4 +1,0 @@
-db_packages:
-  - mysql-server
-  - mysql-client
-db_service: mysql

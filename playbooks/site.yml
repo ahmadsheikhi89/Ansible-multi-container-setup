@@ -1,7 +1,21 @@
-- name: Deploy containers with roles
-  hosts: all
+- name: Build and configure containers on all web hosts
+  hosts: web
   become: true
-  roles:
-    - { role: web, when: "'web' in group_names" }
-    - { role: db, when: "'db' in group_names" }
-    - { role: monitor, when: "'monitor' in group_names" }
+  vars_files:
+    - ../group_vars/web.yml
+
+  tasks:
+    - name: Pull nginx image
+      docker_image:
+        name: "{{ nginx_image }}"
+        source: pull
+
+    - name: Run nginx containers
+      docker_container:
+        name: "{{ item.name }}"
+        image: "{{ nginx_image }}"
+        state: started
+        restart_policy: always
+        published_ports:
+          - "{{ item.published_port }}:80"
+      loop: "{{ web_containers }}"
