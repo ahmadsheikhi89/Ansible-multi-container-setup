@@ -69,17 +69,12 @@ cd Ansible-multi-container-setup
 #### ✅ Install Docker (Official Script)
 
 ```bash
+# Quick install (one-liner)
 curl -fsSL https://get.docker.com | sudo sh
 
-Or
-
-# download the script
-
+# Or download and run manually
 curl -fsSL https://get.docker.com -o install-docker.sh
 sudo sh install-docker.sh
-
-sudo chown user:group install-docker.sh
-./install-docker.sh
 
 ```
 
