@@ -1,3 +1,9 @@
-web_packages:
-  - nginx
-  - curl
+web_containers:
+  - name: nginx1
+    published_port: 8081
+  - name: nginx2
+    published_port: 8082
+  - name: nginx3
+    published_port: 8083
+
+nginx_image: nginx:latest
