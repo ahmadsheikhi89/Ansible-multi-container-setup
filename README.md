@@ -94,7 +94,7 @@ ansible-galaxy collection install community.docker
 ### 🚀 Run the Playbook
 
 ```bash
-ansible-playbook -i inventory/hosts playbooks/site.yml
+ansible-playbook -i inventory/hosts site.yml
 ```
 
 ---
