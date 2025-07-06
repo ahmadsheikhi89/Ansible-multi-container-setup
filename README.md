@@ -32,8 +32,6 @@ Ansible-multi-container-setup/
 │   └── web.yml                 # Group variables (defines nginx image and container config)
 ├── inventory/
 │   └── hosts                   # Inventory file listing managed hosts
-├── playbooks/
-│   └── site.yml               # Main playbook to run the deployment
 ├── roles/
 │   └── web/                   # Ansible role for Nginx
 │       ├── handlers/
